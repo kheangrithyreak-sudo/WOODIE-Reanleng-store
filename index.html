@@ -155,6 +155,11 @@ function renderCart(){
   $("panel").innerHTML = h;
 }
 function sendOrder(){
+  // Opened from the bot's "Open Shop" button (link has ?src=kb): send the order straight to the bot
+  if (tg && location.search.indexOf("src=kb") > -1) {
+    var items = Object.keys(cart).map(function(k){ var p = find(k); return {n:p.name, q:cart[k], p:p.price}; });
+    try { tg.sendData(JSON.stringify({items:items})); return; } catch(e) {}
+  }
   var lines = ["សួស្តី! ខ្ញុំចង់បញ្ជាទិញពី WOODIE រៀនលេង / Hello! I would like to order from WOODIE:",""];
   Object.keys(cart).forEach(function(k){
     var p = find(k);
